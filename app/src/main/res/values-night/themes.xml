@@ -1,0 +1,52 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Todo" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">#254875</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSecondary">@color/lime</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:statusBarColor">@color/blue</item>
+        <item name="floatingActionButtonStyle">@style/fab_style</item>
+    </style>
+
+
+    <style name="Base.Theme.Todo.splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/dark_blue</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+
+    <style name="Theme.Todo" parent="Base.Theme.Todo" />
+
+
+    <style name="splash">
+        <item name="android:background">@color/dark_blue</item>
+    </style>
+
+    <style name="toolbar_title_style">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+    <style name="background_color">
+        <item name="android:background">@color/dark_blue</item>
+    </style>
+
+
+
+    <style name="bottom_nav_style">
+        <item name="android:backgroundTint">@color/dark_blue_light</item>
+    </style>
+
+
+    <style name="fabRounded" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="fab_style" parent="Widget.Design.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/fabRounded</item>
+    </style>
+</resources>
