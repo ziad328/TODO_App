@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding:ActivityHomeBinding
+    var tasksListFragmentRef : TasksListFragment?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -21,10 +22,13 @@ class HomeActivity : AppCompatActivity() {
             .setOnItemSelectedListener {
                 when(it.itemId){
                     R.id.tasks->{
-                        pushFragment(TasksListFragment())
+                        tasksListFragmentRef = TasksListFragment()
+                        pushFragment(tasksListFragmentRef!!)
+                        binding.title.text = "To Do List"
                     }
                     R.id.settings->{
                         pushFragment(SettingsFragment())
+                        binding.title.text = "Settings"
                     }
                 }
                 return@setOnItemSelectedListener true
@@ -40,11 +44,13 @@ class HomeActivity : AppCompatActivity() {
         addTaskSheet.onTaskAddedListener = AddTaskFragment.OnTaskAddedListener {
             Toast.makeText(this,"Task Added",Toast.LENGTH_SHORT)
                 .show()
+            tasksListFragmentRef?.loadTasks()
         }
         addTaskSheet.show(supportFragmentManager,"")
     }
 
     private fun pushFragment(fragment: Fragment){
+
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container,fragment)

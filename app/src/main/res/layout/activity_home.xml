@@ -18,10 +18,12 @@
             android:background="@color/blue">
 
             <TextView
+                android:id="@+id/title"
                 style="@style/toolbar_title_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="To Do List" />
+                android:text="@string/to_do_list"
+                android:fontFamily="@font/poppins_black"/>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -32,6 +34,7 @@
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         style="@style/bottom_nav_style"
+        android:background="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
