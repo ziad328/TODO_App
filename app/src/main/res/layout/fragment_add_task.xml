@@ -9,11 +9,19 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="5dp"
+        android:src="@drawable/dragable_rect"
+        android:layout_marginBottom="18dp" />
+
     <TextView
         style="@style/add_new_task_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_new_task" />
+        android:text="@string/add_new_task"
+        android:fontFamily="@font/poppins_bold"
+        android:layout_marginBottom="10dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/title_container"
@@ -25,10 +33,11 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/task_title"
-            android:inputType="text"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
+            android:hint="@string/task_title"
+            android:fontFamily="@font/poppins_italic"
+            android:inputType="text"
             android:lines="1"
             android:maxLength="30"
             android:maxLines="1"
@@ -51,6 +60,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:hint="@string/description"
+            android:fontFamily="@font/poppins_italic"
             android:inputType="textMultiLine"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
@@ -74,6 +84,7 @@
             style="@style/date_picker_hint_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_italic"
             android:hint="@string/select_date"
             android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -83,9 +94,10 @@
         style="@style/add_task_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="2dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="2dp"
-        android:layout_marginHorizontal="2dp"
+        android:fontFamily="@font/poppins_black"
         android:paddingVertical="12dp"
         android:text="@string/add_task" />
 
