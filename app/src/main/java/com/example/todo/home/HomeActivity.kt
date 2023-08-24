@@ -2,12 +2,14 @@ package com.example.todo.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.todo.R
 import com.example.todo.databinding.ActivityHomeBinding
 import com.example.todo.home.fragments.settings.SettingsFragment
 import com.example.todo.home.fragments.tasks.AddTaskFragment
 import com.example.todo.home.fragments.tasks.TasksListFragment
+import com.google.android.material.snackbar.Snackbar
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding:ActivityHomeBinding
@@ -35,6 +37,10 @@ class HomeActivity : AppCompatActivity() {
 
     private fun showAddTaskBottomSheet() {
         val addTaskSheet = AddTaskFragment()
+        addTaskSheet.onTaskAddedListener = AddTaskFragment.OnTaskAddedListener {
+            Toast.makeText(this,"Task Added",Toast.LENGTH_SHORT)
+                .show()
+        }
         addTaskSheet.show(supportFragmentManager,"")
     }
 

@@ -15,7 +15,7 @@ abstract class MyDatabase:RoomDatabase() {
         private var instance:MyDatabase?=null
         fun getInstance(context: Context):MyDatabase{
             if (instance==null){
-                instance = Room.databaseBuilder(context,MyDatabase::class.java,"TasksDatabase")
+                instance = Room.databaseBuilder(context.applicationContext,MyDatabase::class.java,"TasksDatabase")
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build()
