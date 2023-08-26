@@ -12,8 +12,8 @@ import com.example.todo.databinding.FragmentTasksListBinding
 import com.example.todo.myDatabase.MyDatabase
 import com.example.todo.myDatabase.dao.TasksDao
 
-class TasksListFragment :Fragment(){
-    private lateinit var dao:TasksDao
+class TasksListFragment : Fragment() {
+    private lateinit var dao: TasksDao
     lateinit var viewBinding: FragmentTasksListBinding
     private val tasksAdapter = TasksAdapter()
     override fun onCreateView(
@@ -22,7 +22,8 @@ class TasksListFragment :Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         viewBinding = FragmentTasksListBinding.inflate(
-            inflater,container,false)
+            inflater, container, false
+        )
         return viewBinding.root
     }
 
@@ -30,6 +31,7 @@ class TasksListFragment :Fragment(){
         initRecyclerView()
 
     }
+
     override fun onStart() {
         super.onStart()
         dao = MyDatabase.getInstance(requireContext().applicationContext)
@@ -37,11 +39,12 @@ class TasksListFragment :Fragment(){
         loadTasks()
         tasksAdapter.setColor(ContextCompat.getColor(requireContext(), R.color.blue))
 
-        tasksAdapter.onButtonClickedListener = TasksAdapter.OnButtonClickedListener { position,task->
-             dao.updateTasksStatus(task.id!!,!task.isDone)
-           val updatedTask = dao.getTask(task.id)
-            tasksAdapter.updateTask(updatedTask,position)
-        }
+        tasksAdapter.onButtonClickedListener =
+            TasksAdapter.OnButtonClickedListener { position, task ->
+                dao.updateTasksStatus(task.id!!, !task.isDone)
+                val updatedTask = dao.getTask(task.id)
+                tasksAdapter.updateTask(updatedTask, position)
+            }
 
     }
 
@@ -53,7 +56,6 @@ class TasksListFragment :Fragment(){
         }
 
     }
-
 
 
     private fun initRecyclerView() {

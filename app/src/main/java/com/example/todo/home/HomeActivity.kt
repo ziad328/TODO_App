@@ -11,28 +11,29 @@ import com.example.todo.home.fragments.tasks.AddTaskFragment
 import com.example.todo.home.fragments.tasks.TasksListFragment
 
 class HomeActivity : AppCompatActivity() {
-    lateinit var binding:ActivityHomeBinding
-    var tasksListFragmentRef : TasksListFragment?=null
+    lateinit var binding: ActivityHomeBinding
+    var tasksListFragmentRef: TasksListFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.bottomNav
             .setOnItemSelectedListener {
-                when(it.itemId){
-                    R.id.tasks->{
+                when (it.itemId) {
+                    R.id.tasks -> {
                         tasksListFragmentRef = TasksListFragment()
                         pushFragment(tasksListFragmentRef!!)
                         binding.title.text = "To Do List"
                     }
-                    R.id.settings->{
+
+                    R.id.settings -> {
                         pushFragment(SettingsFragment())
                         binding.title.text = "Settings"
                     }
                 }
                 return@setOnItemSelectedListener true
             }
-        binding.addBtn.setOnClickListener{
+        binding.addBtn.setOnClickListener {
             showAddTaskBottomSheet()
         }
         binding.bottomNav.selectedItemId = R.id.tasks
@@ -41,22 +42,20 @@ class HomeActivity : AppCompatActivity() {
     private fun showAddTaskBottomSheet() {
         val addTaskSheet = AddTaskFragment()
         addTaskSheet.onTaskAddedListener = AddTaskFragment.OnTaskAddedListener {
-            Toast.makeText(this,"Task Added",Toast.LENGTH_SHORT)
+            Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT)
                 .show()
             tasksListFragmentRef?.loadTasks()
         }
-        addTaskSheet.show(supportFragmentManager,"")
+        addTaskSheet.show(supportFragmentManager, "")
     }
 
-    private fun pushFragment(fragment: Fragment){
+    private fun pushFragment(fragment: Fragment) {
 
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragment_container,fragment)
-            .setCustomAnimations(R.anim.fade_in,R.anim.fade_out)
+            .replace(R.id.fragment_container, fragment)
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             .commit()
-
-
 
 
     }

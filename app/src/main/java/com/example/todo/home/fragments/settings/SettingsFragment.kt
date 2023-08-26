@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.todo.databinding.FragmentSettingsBinding
 
-class SettingsFragment :Fragment() {
+class SettingsFragment : Fragment() {
     lateinit var viewBinding: FragmentSettingsBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -15,7 +15,8 @@ class SettingsFragment :Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewBinding = FragmentSettingsBinding.inflate(
-            inflater,container,false)
+            inflater, container, false
+        )
         return viewBinding.root
     }
 }
