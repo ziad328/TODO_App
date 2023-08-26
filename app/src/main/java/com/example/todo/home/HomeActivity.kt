@@ -9,7 +9,6 @@ import com.example.todo.databinding.ActivityHomeBinding
 import com.example.todo.home.fragments.settings.SettingsFragment
 import com.example.todo.home.fragments.tasks.AddTaskFragment
 import com.example.todo.home.fragments.tasks.TasksListFragment
-import com.google.android.material.snackbar.Snackbar
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding:ActivityHomeBinding
@@ -54,7 +53,6 @@ class HomeActivity : AppCompatActivity() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container,fragment)
-            .addToBackStack("")
             .setCustomAnimations(R.anim.fade_in,R.anim.fade_out)
             .commit()
 

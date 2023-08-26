@@ -1,15 +1,21 @@
 package com.example.todo.home.fragments.tasks
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.todo.R
 import com.example.todo.databinding.FragmentTasksListBinding
 import com.example.todo.myDatabase.MyDatabase
+import com.example.todo.myDatabase.dao.TasksDao
 
 class TasksListFragment :Fragment(){
+    private lateinit var dao:TasksDao
     lateinit var viewBinding: FragmentTasksListBinding
+    private val tasksAdapter = TasksAdapter()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -21,27 +27,38 @@ class TasksListFragment :Fragment(){
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initViews()
-    }
+        initRecyclerView()
 
+    }
     override fun onStart() {
         super.onStart()
+        dao = MyDatabase.getInstance(requireContext().applicationContext)
+            .tasksDao()
         loadTasks()
+        tasksAdapter.setColor(ContextCompat.getColor(requireContext(), R.color.blue))
+
+        tasksAdapter.onButtonClickedListener = TasksAdapter.OnButtonClickedListener { position,task->
+             dao.updateTasksStatus(task.id!!,!task.isDone)
+           val updatedTask = dao.getTask(task.id)
+            tasksAdapter.updateTask(updatedTask,position)
+        }
+
     }
 
     fun loadTasks() {
         context?.let {
-            val tasks = MyDatabase.getInstance(it)
-                .tasksDao()
-                .getAllTasks()
+            val tasks = dao
+                .getAllTasks().toMutableList()
             tasksAdapter.updateTasks(tasks)
         }
 
     }
 
-    private val tasksAdapter = TasksAdapter(null)
-    private fun initViews() {
+
+
+    private fun initRecyclerView() {
         viewBinding.rvTasks.adapter = tasksAdapter
 
     }
+
 }

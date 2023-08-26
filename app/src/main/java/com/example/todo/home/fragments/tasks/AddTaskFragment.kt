@@ -3,6 +3,7 @@ package com.example.todo.home.fragments.tasks
 import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,9 +36,12 @@ class AddTaskFragment :BottomSheetDialogFragment() {
     private fun showDatePickerDialog() {
         context?.let {
             val dialog = DatePickerDialog(it)
-            dialog.setOnDateSetListener{ datePicker,day,month,year->
+            dialog.setOnDateSetListener{ datePicker,year,month,day->
                 viewBinding.taskDate.text = "$day-${month+1}-$year"
-                calendar.set(year,month+1,day)
+                calendar.set(Calendar.YEAR,year)
+                calendar.set(Calendar.MONTH,month)
+                calendar.set(Calendar.DAY_OF_MONTH,day)
+
                 //to ignore time
                 calendar.set(Calendar.HOUR_OF_DAY,0)
                 calendar.set(Calendar.MINUTE,0)
@@ -57,12 +61,6 @@ class AddTaskFragment :BottomSheetDialogFragment() {
         }else{
             viewBinding.titleContainer.error = null
         }
-        if (viewBinding.description.text.toString().isNullOrBlank()){
-            viewBinding.descriptionContainer.error = "please enter a description"
-            isValid = false
-        }else{
-            viewBinding.descriptionContainer.error = null
-        }
         if (viewBinding.taskDate.text.toString().isNullOrBlank()){
             viewBinding.dateContainer.error = "please choose date"
             isValid = false
@@ -80,6 +78,7 @@ class AddTaskFragment :BottomSheetDialogFragment() {
             description = viewBinding.description.text.toString().trim(),
             dateTime = calendar.timeInMillis
         )
+        Log.i("***",calendar.timeInMillis.toString())
         MyDatabase.getInstance(requireContext())
             .tasksDao()
             .addNewTask(task)
