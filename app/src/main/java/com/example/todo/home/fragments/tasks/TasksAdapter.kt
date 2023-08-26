@@ -30,7 +30,11 @@ class TasksAdapter(var color: Int? = null, var tasks: MutableList<Task>? = null)
         onButtonClickedListener?.let { onButtonClickedListener ->
             holder.itemBinding.btnTaskDone.setOnClickListener {
                 onButtonClickedListener.onButtonClicked(position, task)
-
+            }
+        }
+        onDeleteButtonClickedListener?.let { onButtonClickedListener ->
+            holder.itemBinding.icDeleteView.setOnClickListener {
+                onButtonClickedListener.onButtonClicked(position, task)
             }
         }
     }
@@ -45,7 +49,13 @@ class TasksAdapter(var color: Int? = null, var tasks: MutableList<Task>? = null)
         notifyItemChanged(position)
     }
 
+    fun deleteTask(task: Task, position: Int) {
+        this.tasks?.remove(task)
+        notifyItemRemoved(position)
+    }
+
     var onButtonClickedListener: OnButtonClickedListener? = null
+    var onDeleteButtonClickedListener: OnButtonClickedListener? = null
 
     fun interface OnButtonClickedListener {
         fun onButtonClicked(position: Int, task: Task)

@@ -1,7 +1,6 @@
 package com.example.todo.home.fragments.tasks
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,7 @@ class TasksListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewBinding = FragmentTasksListBinding.inflate(
             inflater, container, false
         )
@@ -38,14 +37,6 @@ class TasksListFragment : Fragment() {
             .tasksDao()
         loadTasks()
         tasksAdapter.setColor(ContextCompat.getColor(requireContext(), R.color.blue))
-
-        tasksAdapter.onButtonClickedListener =
-            TasksAdapter.OnButtonClickedListener { position, task ->
-                dao.updateTasksStatus(task.id!!, !task.isDone)
-                val updatedTask = dao.getTask(task.id)
-                tasksAdapter.updateTask(updatedTask, position)
-            }
-
     }
 
     fun loadTasks() {
@@ -60,6 +51,18 @@ class TasksListFragment : Fragment() {
 
     private fun initRecyclerView() {
         viewBinding.rvTasks.adapter = tasksAdapter
+        tasksAdapter.onButtonClickedListener =
+            TasksAdapter.OnButtonClickedListener { position, task ->
+                dao.updateTasksStatus(task.id!!, !task.isDone)
+                val updatedTask = dao.getTask(task.id)
+                tasksAdapter.updateTask(updatedTask, position)
+            }
+        tasksAdapter.onDeleteButtonClickedListener =
+            TasksAdapter.OnButtonClickedListener { position, task ->
+                dao.removeTask(task)
+                tasksAdapter.deleteTask(task, position)
+
+            }
 
     }
 
