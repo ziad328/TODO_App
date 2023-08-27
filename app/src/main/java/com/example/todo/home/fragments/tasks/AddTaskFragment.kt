@@ -1,24 +1,25 @@
 package com.example.todo.home.fragments.tasks
 
-import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.todo.databinding.FragmentAddTaskBinding
 import com.example.todo.myDatabase.MyDatabase
 import com.example.todo.myDatabase.model.Task
+import com.example.todo.utils.showDatePickerDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class AddTaskFragment : BottomSheetDialogFragment() {
     lateinit var viewBinding: FragmentAddTaskBinding
+    private val calendar = Calendar.getInstance()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewBinding = FragmentAddTaskBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -28,28 +29,12 @@ class AddTaskFragment : BottomSheetDialogFragment() {
             createTask()
         }
         viewBinding.dateContainer.setOnClickListener {
-            showDatePickerDialog()
-        }
-    }
 
-    val calendar = Calendar.getInstance()
-    private fun showDatePickerDialog() {
-        context?.let {
-            val dialog = DatePickerDialog(it)
-            dialog.setOnDateSetListener { datePicker, year, month, day ->
-                viewBinding.taskDate.text = "$day-${month + 1}-$year"
-                calendar.set(Calendar.YEAR, year)
-                calendar.set(Calendar.MONTH, month)
-                calendar.set(Calendar.DAY_OF_MONTH, day)
-
-                //to ignore time
-                calendar.set(Calendar.HOUR_OF_DAY, 0)
-                calendar.set(Calendar.MINUTE, 0)
-                calendar.set(Calendar.SECOND, 0)
-                calendar.set(Calendar.MILLISECOND, 0)
-
+            context?.let { context ->
+                showDatePickerDialog(context, calendar) {
+                    viewBinding.taskDate.text = it
+                }
             }
-            dialog.show()
         }
     }
 
@@ -79,7 +64,6 @@ class AddTaskFragment : BottomSheetDialogFragment() {
             description = viewBinding.description.text.toString().trim(),
             dateTime = calendar.timeInMillis
         )
-        Log.i("***", calendar.timeInMillis.toString())
         MyDatabase.getInstance(requireContext())
             .tasksDao()
             .addNewTask(task)

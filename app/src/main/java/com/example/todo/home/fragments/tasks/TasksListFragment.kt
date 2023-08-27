@@ -1,5 +1,6 @@
 package com.example.todo.home.fragments.tasks
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import com.example.todo.R
 import com.example.todo.databinding.FragmentTasksListBinding
 import com.example.todo.myDatabase.MyDatabase
 import com.example.todo.myDatabase.dao.TasksDao
+import com.example.todo.tasksDetails.TaskDetails
 
 class TasksListFragment : Fragment() {
     private lateinit var dao: TasksDao
@@ -61,6 +63,13 @@ class TasksListFragment : Fragment() {
             TasksAdapter.OnButtonClickedListener { position, task ->
                 dao.removeTask(task)
                 tasksAdapter.deleteTask(task, position)
+
+            }
+        tasksAdapter.onItemClickedListener =
+            TasksAdapter.OnItemClickedListener { task ->
+                val intent = Intent(activity, TaskDetails::class.java)
+                intent.putExtra("", task)
+                startActivity(intent)
 
             }
 

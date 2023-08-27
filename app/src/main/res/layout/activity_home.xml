@@ -22,22 +22,22 @@
                 style="@style/toolbar_title_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/to_do_list"
-                android:fontFamily="@font/poppins_black"/>
+                android:fontFamily="@font/poppins_black"
+                android:text="@string/to_do_list" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
         android:id="@+id/content"
-        layout="@layout/content_home"/>
+        layout="@layout/content_home" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         style="@style/bottom_nav_style"
-        android:background="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="@color/transparent"
         app:fabAlignmentMode="center"
         app:fabCradleMargin="8dp"
         app:fabCradleVerticalOffset="8dp">

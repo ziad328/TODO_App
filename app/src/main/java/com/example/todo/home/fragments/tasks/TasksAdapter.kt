@@ -37,6 +37,11 @@ class TasksAdapter(var color: Int? = null, var tasks: MutableList<Task>? = null)
                 onButtonClickedListener.onButtonClicked(position, task)
             }
         }
+        onItemClickedListener?.let { onItemClickedListener ->
+            holder.itemBinding.cardItem.setOnClickListener {
+                onItemClickedListener.onItemClicked(task)
+            }
+        }
     }
 
     fun updateTasks(tasks: MutableList<Task>) {
@@ -52,6 +57,7 @@ class TasksAdapter(var color: Int? = null, var tasks: MutableList<Task>? = null)
     fun deleteTask(task: Task, position: Int) {
         this.tasks?.remove(task)
         notifyItemRemoved(position)
+        notifyDataSetChanged()
     }
 
     var onButtonClickedListener: OnButtonClickedListener? = null
@@ -59,6 +65,12 @@ class TasksAdapter(var color: Int? = null, var tasks: MutableList<Task>? = null)
 
     fun interface OnButtonClickedListener {
         fun onButtonClicked(position: Int, task: Task)
+    }
+
+    var onItemClickedListener: OnItemClickedListener? = null
+
+    fun interface OnItemClickedListener {
+        fun onItemClicked(task: Task)
     }
 
 

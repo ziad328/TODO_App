@@ -1,10 +1,10 @@
 package com.example.todo.splash
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.appcompat.app.AppCompatActivity
 import com.example.todo.databinding.ActivitySplashBinding
 import com.example.todo.home.HomeActivity
 
@@ -19,7 +19,6 @@ class SplashActivity : AppCompatActivity() {
                 startHomeActivity()
             }, 1000)
     }
-
 
 
     private fun startHomeActivity() {

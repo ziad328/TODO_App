@@ -4,11 +4,11 @@
     android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:autoMovingSensitivity="1000"
     app:draggedItem="@id/card_item"
     app:leftItem="@id/ic_delete_view"
-    app:swipeDirection="right"
-    android:layout_margin="10dp"
-    app:autoMovingSensitivity="1000">
+    app:swipeDirection="right">
 
     <ImageView
         android:id="@+id/ic_delete_view"
@@ -60,21 +60,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
                     android:fontFamily="@font/poppins_bold"
+                    android:text="1123467"
                     android:textColor="@color/blue"
                     android:textSize="18sp"
-                    android:layout_weight="1"
-                    android:text="1123467"
                     tools:text="A Task" />
 
                 <TextView
                     android:id="@+id/task_item_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
                     android:layout_weight="1"
-                    android:textSize="12sp"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="23458"
+                    android:textSize="12sp"
                     tools:text="2034-4-12" />
             </LinearLayout>
 
