@@ -66,4 +66,10 @@
     <style name="date_picker_hint_color">
         <item name="hintTextColor">@color/gray</item>
     </style>
+
+    <style name="settings_texts">
+        <item name="android:textColor">@color/blue</item>
+        <item name="fontFamily">@font/poppins_black</item>
+        <item name="android:textSize">24sp</item>
+    </style>
 </resources>
