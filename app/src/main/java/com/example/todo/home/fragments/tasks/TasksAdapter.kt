@@ -87,7 +87,7 @@ class TasksAdapter(var color: Int? = null, var tasks: MutableList<Task>? = null)
             changeTaskStatus(task.isDone, color)
         }
 
-        fun changeTaskStatus(isDone: Boolean, color: Int? = null) {
+        private fun changeTaskStatus(isDone: Boolean, color: Int? = null) {
             if (isDone) {
                 itemBinding.dragableRect.setImageResource(R.drawable.dragable_rect_task_done)
                 itemBinding.taskItemTitle.setTextColor(Color.GREEN)

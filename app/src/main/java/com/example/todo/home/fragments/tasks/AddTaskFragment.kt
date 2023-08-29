@@ -1,5 +1,6 @@
 package com.example.todo.home.fragments.tasks
 
+import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +9,6 @@ import android.view.ViewGroup
 import com.example.todo.databinding.FragmentAddTaskBinding
 import com.example.todo.myDatabase.MyDatabase
 import com.example.todo.myDatabase.model.Task
-import com.example.todo.utils.showDatePickerDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class AddTaskFragment : BottomSheetDialogFragment() {
@@ -31,9 +31,20 @@ class AddTaskFragment : BottomSheetDialogFragment() {
         viewBinding.dateContainer.setOnClickListener {
 
             context?.let { context ->
-                showDatePickerDialog(context, calendar) {
-                    viewBinding.taskDate.text = it
+                val dialog = DatePickerDialog(context)
+                dialog.setOnDateSetListener { datePicker, year, month, day ->
+                    viewBinding.taskDate.text = "$day-${month + 1}-$year"
+                    calendar.set(year, month, day)
+
+                    //to ignore time
+                    calendar.set(Calendar.HOUR_OF_DAY, 0)
+                    calendar.set(Calendar.MINUTE, 0)
+                    calendar.set(Calendar.SECOND, 0)
+                    calendar.set(Calendar.MILLISECOND, 0)
+
                 }
+                dialog.show()
+
             }
         }
     }

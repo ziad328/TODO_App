@@ -1,5 +1,6 @@
 package com.example.todo.tasksDetails
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -9,7 +10,6 @@ import com.example.todo.home.HomeActivity
 import com.example.todo.myDatabase.MyDatabase
 import com.example.todo.myDatabase.model.Task
 import com.example.todo.utils.parcelable
-import com.example.todo.utils.showDatePickerDialog
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -39,8 +39,18 @@ class TaskDetails : AppCompatActivity() {
             }
         }
         viewBinding.dateContainer.setOnClickListener {
-            showDatePickerDialog(this, calendar) {
-                viewBinding.date.text = it
+            val dialog = DatePickerDialog(this)
+            dialog.setOnDateSetListener { datePicker, year, month, day ->
+                viewBinding.date.text = "$day-${month + 1}-$year"
+                calendar.set(year, month, day)
+
+                //to ignore time
+                calendar.set(Calendar.HOUR_OF_DAY, 0)
+                calendar.set(Calendar.MINUTE, 0)
+                calendar.set(Calendar.SECOND, 0)
+                calendar.set(Calendar.MILLISECOND, 0)
+
+                dialog.show()
             }
         }
     }

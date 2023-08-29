@@ -44,7 +44,7 @@ class HomeActivity : AppCompatActivity() {
         addTaskSheet.onTaskAddedListener = AddTaskFragment.OnTaskAddedListener {
             Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT)
                 .show()
-            tasksListFragmentRef?.loadTasks()
+            tasksListFragmentRef?.loadAllTasks()
         }
         addTaskSheet.show(supportFragmentManager, "")
     }
