@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TO DO</string>
+    <string name="add_new_task">إضافة مهمة جديدة</string>
+    <string name="task_title">اسم المهمة</string>
+    <string name="description">الوصف</string>
+    <string name="select_date">اختر التاريخ</string>
+    <string name="add_task">أضف المهمة</string>
+    <string name="to_do_list">قائمة المهمات</string>
+    <string name="settings">الإعدادات</string>
+    <string name="save">حفظ</string>
+    <string name="edit_task">تعديل المهمة</string>
+    <string name="language">اللغة</string>
+    <string name="mode">وضع الشاشة</string>
+    <string name="choose">اختر</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="english">انجليزي</string>
+    <string name="arabic">عربي</string>
+</resources>

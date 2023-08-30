@@ -12,6 +12,7 @@ import com.example.todo.databinding.FragmentTasksListBinding
 import com.example.todo.myDatabase.MyDatabase
 import com.example.todo.myDatabase.dao.TasksDao
 import com.example.todo.tasksDetails.TaskDetails
+import com.example.todo.utils.Constants
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import java.util.Calendar
@@ -53,7 +54,7 @@ class TasksListFragment : Fragment() {
     }
 
     fun loadAllTasks() {
-        val tasks = dao.getAllTasks().toMutableList()
+        val tasks = dao.getTaskByDate(selectedDate).toMutableList()
         tasksAdapter.updateTasks(tasks)
     }
 
@@ -107,7 +108,7 @@ class TasksListFragment : Fragment() {
         tasksAdapter.onItemClickedListener =
             TasksAdapter.OnItemClickedListener { task ->
                 val intent = Intent(activity, TaskDetails::class.java)
-                intent.putExtra("", task)
+                intent.putExtra(Constants.TASK_KEY, task)
                 startActivity(intent)
 
             }

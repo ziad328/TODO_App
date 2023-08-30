@@ -16,4 +16,13 @@
     <string name="dark">Dark</string>
     <string name="english">English</string>
     <string name="arabic">Arabic</string>
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>Arabic</item>
+    </string-array>
+    <string-array name="modes">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
 </resources>

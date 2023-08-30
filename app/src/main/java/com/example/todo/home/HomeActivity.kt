@@ -17,18 +17,22 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initBottomNav()
+    }
+
+    private fun initBottomNav() {
         binding.bottomNav
             .setOnItemSelectedListener {
                 when (it.itemId) {
                     R.id.tasks -> {
                         tasksListFragmentRef = TasksListFragment()
                         pushFragment(tasksListFragmentRef!!)
-                        binding.title.text = "To Do List"
+                        binding.title.text = getString(R.string.to_do_list)
                     }
 
                     R.id.settings -> {
                         pushFragment(SettingsFragment())
-                        binding.title.text = "Settings"
+                        binding.title.text = getString(R.string.settings)
                     }
                 }
                 return@setOnItemSelectedListener true
@@ -36,6 +40,11 @@ class HomeActivity : AppCompatActivity() {
         binding.addBtn.setOnClickListener {
             showAddTaskBottomSheet()
         }
+        binding.bottomNav.selectedItemId = R.id.tasks
+    }
+
+    override fun onResume() {
+        super.onResume()
         binding.bottomNav.selectedItemId = R.id.tasks
     }
 

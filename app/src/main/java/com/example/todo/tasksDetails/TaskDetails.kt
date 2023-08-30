@@ -1,107 +1,143 @@
 package com.example.todo.tasksDetails
 
-import android.app.DatePickerDialog
-import android.content.Intent
-import android.icu.util.Calendar
+
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.todo.R
 import com.example.todo.databinding.ActivityTaskDetailsBinding
-import com.example.todo.home.HomeActivity
 import com.example.todo.myDatabase.MyDatabase
+import com.example.todo.myDatabase.dao.TasksDao
 import com.example.todo.myDatabase.model.Task
+import com.example.todo.utils.Constants
 import com.example.todo.utils.parcelable
-import java.text.SimpleDateFormat
-import java.util.Locale
+import com.example.todo.utils.showDatePickerDialog
+import java.util.Calendar
 
 
 class TaskDetails : AppCompatActivity() {
-    private lateinit var viewBinding: ActivityTaskDetailsBinding
-    private val calendar = Calendar.getInstance()
+    lateinit var binding: ActivityTaskDetailsBinding
+    lateinit var dao: TasksDao
+    private var dateCalendar = Calendar.getInstance()
+    private var myTask = Task()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityTaskDetailsBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
+        binding = ActivityTaskDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initViews()
+        onSaveClick()
+        onSelectDateClick()
         setupToolbar()
+        val task = intent.parcelable<Task>(Constants.TASK_KEY) as Task
+        myTask.dateTime = task.dateTime
 
-    }
-
-
-    private fun initViews() {
-        var task = intent.parcelable<Task>("")
-        viewBinding.title.setText(task?.title)
-        viewBinding.description.setText(task?.description)
-        viewBinding.date.text = formatDate(task?.dateTime)
-        viewBinding.saveBtn.setOnClickListener {
-            if (task != null) {
-                updateTask(task)
-            }
-        }
-        viewBinding.dateContainer.setOnClickListener {
-            val dialog = DatePickerDialog(this)
-            dialog.setOnDateSetListener { datePicker, year, month, day ->
-                viewBinding.date.text = "$day-${month + 1}-$year"
-                calendar.set(year, month, day)
-
-                //to ignore time
-                calendar.set(Calendar.HOUR_OF_DAY, 0)
-                calendar.set(Calendar.MINUTE, 0)
-                calendar.set(Calendar.SECOND, 0)
-                calendar.set(Calendar.MILLISECOND, 0)
-
-                dialog.show()
-            }
-        }
-    }
-
-
-    private fun formatDate(dateTime: Long?): String {
-        var date = dateTime
-        var sdf = SimpleDateFormat("yyyy/MM/dd", Locale.US)
-        return sdf.format(date)
+        Log.i("@@@ from intent", myTask.dateTime.toString())
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(viewBinding.toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        viewBinding.toolbar.setNavigationOnClickListener {
+        supportActionBar
+        binding.toolbar.setNavigationOnClickListener {
             finish()
         }
     }
 
+    private fun initViews() {
+        val task = intent.parcelable<Task>(Constants.TASK_KEY) as Task
+        binding.content.title.setText(task.title)
+        binding.content.description.setText(task.description)
+        val dateCalendar = java.util.Calendar.getInstance()
+        dateCalendar.timeInMillis = task.dateTime!!
+        val year = dateCalendar.get(java.util.Calendar.YEAR)
+        val month = dateCalendar.get(java.util.Calendar.MONTH)
+        val day = dateCalendar.get(java.util.Calendar.DAY_OF_MONTH)
 
-    private fun valid(): Boolean {
-        var isValid = true
-        if (viewBinding.title.text.toString().isNullOrBlank()) {
-            viewBinding.titleContainer.error = "please enter a title"
-            isValid = false
-        } else {
-            viewBinding.titleContainer.error = null
-        }
-        if (viewBinding.date.text.toString().isNullOrBlank()) {
-            viewBinding.dateContainer.error = "please choose date"
-            isValid = false
-        } else {
-            viewBinding.dateContainer.error = null
-        }
-        return isValid
+        binding.content.selectDateTv.text = "$day/${month + 1}/$year"
     }
 
-    private fun updateTask(task: Task) {
-        if (!valid()) {
+
+    private fun onSelectDateClick() {
+        binding.content.selectDateTil.setOnClickListener {
+            showDatePickerDialog(this) { date, calendar ->
+                this.dateCalendar.set(
+                    java.util.Calendar.YEAR,
+                    calendar.get(java.util.Calendar.YEAR)
+                )
+                this.dateCalendar.set(
+                    java.util.Calendar.MONTH,
+                    calendar.get(java.util.Calendar.MONTH)
+                )
+                this.dateCalendar.set(
+                    java.util.Calendar.DAY_OF_MONTH,
+                    calendar.get(java.util.Calendar.DAY_OF_MONTH)
+                )
+                this.dateCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0)
+                this.dateCalendar.set(java.util.Calendar.MINUTE, 0)
+                this.dateCalendar.set(java.util.Calendar.SECOND, 0)
+                this.dateCalendar.set(java.util.Calendar.MILLISECOND, 0)
+                binding.content.selectDateTv.text = date
+                myTask.dateTime = dateCalendar.timeInMillis
+
+            }
+        }
+
+    }
+
+    private fun onSaveClick() {
+        binding.content.btnSave.setOnClickListener {
+            updateTask()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dao = MyDatabase.getInstance(this).tasksDao()
+    }
+
+    private fun updateTask() {
+        if (!isValid()) {
             return
         }
-        task.title = viewBinding.title.text.toString().trim()
-        task.description = viewBinding.description.text.toString().trim()
-        task.dateTime = calendar.timeInMillis
-        MyDatabase.getInstance(applicationContext)
-            .tasksDao()
-            .updateTask(task)
+        val task = intent.parcelable<Task>(Constants.TASK_KEY) as Task
+        task.title = binding.content.title.text.toString()
+        task.description = binding.content.description.text.toString()
+        task.dateTime = dateCalendar.timeInMillis
 
-        val intent = Intent(baseContext, HomeActivity::class.java)
-        startActivity(intent)
+        myTask = task.copy(
+            id = task.id,
+            title = task.title,
+            description = task.description,
+            dateTime = myTask.dateTime,
+            isDone = task.isDone
+        )
+        dao.updateTask(myTask)
+        finish()
+
+
+    }
+
+    fun isValid(): Boolean {
+        var isValid = true
+        if (binding.content.title.text.isNullOrBlank()) {
+            isValid = false
+            binding.content.titleTil.error = getString(R.string.add_task)
+        } else {
+            binding.content.titleTil.error = null
+        }
+
+        if (binding.content.selectDateTv.text.isNullOrBlank()) {
+            isValid = false
+            binding.content.selectDateTil.error = getString(R.string.select_date)
+        } else {
+            binding.content.selectDateTil.error = null
+        }
+
+
+        return isValid
+
     }
 
 }
